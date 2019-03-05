@@ -1,57 +1,64 @@
-<?xml version="1.0" ?> 
+<?xml version="1.0" ?>
 <project name="AntExample1" default="junit">
-	<property name="run.classpath" value="bin"/>
-	<property name="run.srcpath" value="src"/>
-	<property name="test.xml" value="xml"/>
-	<property name="test.report" value="report"/>
+    <property name="run.classpath" value="bin"/>
+    <property name="run.srcpath" value="src"/>
+    <property name="test.xml" value="xml"/>
+    <property name="test.report" value="report"/>
+    <property name="lib.dir" value="lib"/>
 
+    <path id="compile.path">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement path="${run.classpath}"/>
+    </path>
 
-	<path id="compile.classpath">
-		<fileset dir="WebContent/WEB-INF/lib">
-			<include name="*.jar"/>
-		</fileset>
-	</path>
-	
-	<target name="init">
-		<mkdir dir="build/classes"/>
-		<mkdir dir="dist" />
-	</target>
-	
-	<target name="compile" depends="init" >
-		<javac destdir="build/classes" debug="true" srcdir="src">
-			<classpath refid="compile.classpath"/>
-		</javac>
-	</target>
-	
-	<target name="war" depends="compile">
-		<war destfile="dist/AntExample.war" webxml="WebContent/WEB-INF/web.xml">
-			<fileset dir="WebContent"/>
-			<lib dir="WebContent/WEB-INF/lib"/>
-			<classes dir="build/classes"/>
-		</war>
-	</target>
-	
-	<target name="clean">
-		<delete dir="dist" />
-		<delete dir="build" />
-	</target>
-	<target name="junit" depends="war">
-		<junit printsummary="false">
-			<classpath path="${run.classpath}"/>
-			<formatter type="xml"/>
-			<batchtest todir="${test.xml}">
-				<fileset dir="${run.classpath}">
-					<!--运行${run.classpath}下所有和"**/*.class"匹配的用例-->
-					<include name="**/*.class"/>
-				</fileset>
-			</batchtest>
-		</junit>
-		<junitreport todir="${test.xml}">
-			<fileset dir="${test.xml}">
-				<include name="TEST-*.xml"/>
-			</fileset>
-			<report format="frames" todir="${test.report}"/>
-		</junitreport>
-	</target>
+    <path id="compile.classpath">
+        <fileset dir="WebContent/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build/classes"/>
+        <mkdir dir="dist"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac destdir="build/classes" debug="true" srcdir="src">
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target name="war" depends="compile">
+        <war destfile="dist/AntExample.war" webxml="WebContent/WEB-INF/web.xml">
+            <fileset dir="WebContent"/>
+            <lib dir="WebContent/WEB-INF/lib"/>
+            <classes dir="build/classes"/>
+        </war>
+    </target>
+
+    <target name="clean">
+        <delete dir="dist"/>
+        <delete dir="build"/>
+    </target>
+    <target name="junit" depends="war">
+        <junit printsummary="true">
+            <classpath refid="compile.path"/>
+            <formatter type="xml"/>
+            <batchtest todir="${test.xml}">
+                <fileset dir="${run.classpath}">
+                    <!--运行${run.classpath}下所有和"**/*.class"匹配的用例-->
+                    <include name="**/*.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+        <junitreport todir="${test.xml}">
+            <fileset dir="${test.xml}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${test.report}"/>
+        </junitreport>
+    </target>
 
 </project>
