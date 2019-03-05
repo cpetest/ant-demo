@@ -1,5 +1,6 @@
 package com.vaannila.domain;
 
+
 import junit.framework.TestCase;
 import org.junit.Test;
 
