@@ -1,5 +1,10 @@
 <?xml version="1.0" ?> 
-<project name="AntExample1" default="war">
+<project name="AntExample1" default="junit">
+	<property name="run.classpath" value="bin"/>
+	<property name="run.srcpath" value="src"/>
+	<property name="test.xml" value="xml"/>
+	<property name="test.report" value="report"/>
+
 
 	<path id="compile.classpath">
 		<fileset dir="WebContent/WEB-INF/lib">
@@ -30,23 +35,23 @@
 		<delete dir="dist" />
 		<delete dir="build" />
 	</target>
-	<target name="junit" depends="compile">
-		    <junit printsummary="false">
-		       <classpath path="compile.classpath"/>
-		       <formatter type="xml"/>
-		       <batchtest todir="build.xml">
-		         <fileset dir="compile.classpath">
-		<!--运行${run.classpath}下所有和"**/*.class"匹配的用例-->
-		           <include name="**/*.class"/>
-		         </fileset>
-		       </batchtest>
-		     </junit>
-		     <junitreport todir="test.xml">
-		       <fileset dir="build/">
-		         <include name="TEST-*.xml"/>
-		       </fileset>
-		       <report format="frames" todir="test.xml"/>
-		     </junitreport>
+	<target name="junit" depends="war">
+		<junit printsummary="false">
+			<classpath path="${run.classpath}"/>
+			<formatter type="xml"/>
+			<batchtest todir="${test.xml}">
+				<fileset dir="${run.classpath}">
+					<!--运行${run.classpath}下所有和"**/*.class"匹配的用例-->
+					<include name="**/*.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="${test.xml}">
+			<fileset dir="${test.xml}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${test.report}"/>
+		</junitreport>
 	</target>
 
 </project>
