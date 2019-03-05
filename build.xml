@@ -2,8 +2,8 @@
 <project name="AntExample1" default="junit">
     <property name="run.classpath" value="bin"/>
     <property name="run.srcpath" value="src"/>
-    <property name="test.xml" value="build/dis"/>
-    <property name="test.report" value="build/dis"/>
+    <property name="test.xml" value="bin"/>
+    <property name="test.report" value="bin"/>
     <property name="lib.dir" value="lib"/>
 
     <path id="compile.path">
@@ -25,7 +25,7 @@
     </target>
 
     <target name="compile" depends="init">
-        <javac destdir="build/classes" debug="true" srcdir="src" includeantruntime="on  ">
+        <javac destdir="build/classes" debug="true" srcdir="src" includeantruntime="on">
             <classpath refid="compile.classpath" />
         </javac>
     </target>
